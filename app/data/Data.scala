@@ -9,12 +9,14 @@ case class Book(
 
 object Data {
 
+  //find top 2 authors by max of total book prices by those authors
+  //(minsky, 1088), (odersky, 600)
+
   val books = List(
     Book("odersky", "scala prog", 100, false),
     Book("odersky", "apple", 100, false),
     Book("odersky", "complexity", 400, false),
     Book("misky", "ocaml prog", 1000, true),
-    Book("misky", "sml", 88, false),
     Book("hickey", "clojure prog", 500, true)
   )
 }
