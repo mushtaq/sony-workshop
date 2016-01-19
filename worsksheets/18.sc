@@ -1,3 +1,5 @@
+import play.api.libs.json.JsObject
+
 sealed trait MyList[+T]
 case class Cons[T](head: T, tail: MyList[T]) extends MyList[T]
 case object MyNil extends MyList[Nothing]
@@ -16,6 +18,7 @@ def reverse[T](xs: MyList[T]): MyList[T] = {
     case Cons(head, tail) => inner(tail, Cons(head, acc))
   }
 
+  JsObject
   inner(xs, MyNil)
 }
 
