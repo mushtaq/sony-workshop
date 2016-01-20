@@ -1,28 +1,26 @@
-import play.api.libs.json.JsObject
+sealed trait List[+T] {
+  def ::[U >: T](x: U): List[U] = new ::(x, this)
+}
+case class ::[T](head: T, tail: List[T]) extends List[T]
+case object Nil extends List[Nothing]
 
-sealed trait MyList[+T]
-case class Cons[T](head: T, tail: MyList[T]) extends MyList[T]
-case object MyNil extends MyList[Nothing]
+val xs = ::(1, ::(2, ::(3, Nil)))
+val ys = 1 :: 2 :: 3 :: Nil
 
-
-val xs = Cons(1, Cons(2, Cons(3, MyNil)))
-
-def length[T](xs: MyList[T]): Int = xs match {
-  case MyNil            => 0
-  case Cons(head, tail) => 1 + length(tail)
+def length[T](xs: List[T]): Int = xs match {
+  case Nil            => 0
+  case ::(head, tail) => 1 + length(tail)
 }
 
-def reverse[T](xs: MyList[T]): MyList[T] = {
-  def inner(remaining: MyList[T], acc: MyList[T]): MyList[T] = remaining match {
-    case MyNil            => acc
-    case Cons(head, tail) => inner(tail, Cons(head, acc))
+def reverse[T](xs: List[T]): List[T] = {
+  def inner(remaining: List[T], acc: List[T]): List[T] = remaining match {
+    case Nil            => acc
+    case head :: tail => inner(tail, ::(head, acc))
   }
 
-  JsObject
-  inner(xs, MyNil)
+  inner(xs, Nil)
 }
 
 length(xs)
 
 reverse(xs)
-

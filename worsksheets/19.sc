@@ -5,12 +5,19 @@ def m(obj: Any) = obj match {
   case "asdasd" => "www"
 }
 
+object :: {
+  def unapply(s: String): Option[(String, String)] = s.split(":") match {
+    case Array(user, domain) => Some(user, domain)
+    case _                   => None
+  }
+}
+
 def transform(json: JsValue): JsValue = json match {
-  case JsNull           => JsString("null")
-  case JsNumber(value)  => JsNumber(value * value)
-  case JsBoolean(value) => JsBoolean(!value)
-  case JsString("")     => JsString("empty")
-  case JsString(value) if value.startsWith("urn:") => JsString(value.replaceFirst("urn:", "Hello "))
+  case JsNull                       => JsString("null")
+  case JsNumber(value)              => JsNumber(value * value)
+  case JsBoolean(value)             => JsBoolean(!value)
+  case JsString("")                 => JsString("empty")
+  case JsString("urn" :: rest) => JsString(s"Hello $rest")
 
   case JsArray(values) => JsArray(values.map(transform))
   case JsObject(pairs) => JsObject(pairs.map(transformPair))
