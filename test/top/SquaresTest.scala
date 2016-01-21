@@ -40,7 +40,9 @@ class SquaresTest extends Specification {
   }
 
   "streaming" in {
-    val resultF = Squares.streaming(1 to 20).runForeach(println)
+    val resultF = Squares.streaming(1 to 20).runFold(List.empty[Int])(
+      (acc, elm) => elm :: acc
+    )
     println("===============call returned================")
 
     resultF.onComplete(println)
