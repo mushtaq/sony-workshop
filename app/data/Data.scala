@@ -1,11 +1,22 @@
 package data
 
+import mushtaq.Ord
+import play.api.libs.json.{Json, JsValue, Reads}
+
 case class Book(
   author: String,
   title: String,
   basePrice: Double,
   isImported: Boolean
   )
+
+object Book {
+  implicit val bookOrd: Ord[Book] = new Ord[Book] {
+    def lt(a: Book, b: Book) = a.basePrice < b.basePrice
+  }
+
+  implicit val reads = Json.format[Book]
+}
 
 object Data {
 
