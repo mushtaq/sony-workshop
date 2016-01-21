@@ -2,7 +2,7 @@ package top
 
 import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
-import utils.Scheduler
+import utils.{BlockingConfig, Scheduler}
 import scala.util.Random
 import utils.Config.executionContext
 
@@ -27,7 +27,7 @@ object Square {
   def async(a: Int): Future[Int] = Future {
 
     blocking(a)
-  }
+  }(BlockingConfig.executionContext)
 
   def nonBlocking(a: Int): Future[Int] = {
     println(s"begin (non-blocking) squaring $a")

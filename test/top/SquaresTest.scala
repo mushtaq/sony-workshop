@@ -1,5 +1,6 @@
 package top
 
+import akka.stream.scaladsl.Sink
 import org.specs2.mutable.Specification
 import utils.Config.executionContext
 import utils.Config.mat
@@ -40,9 +41,7 @@ class SquaresTest extends Specification {
   }
 
   "streaming" in {
-    val resultF = Squares.streaming(1 to 20).runFold(List.empty[Int])(
-      (acc, elm) => elm :: acc
-    )
+    val resultF = Squares.streaming(1 to 20).runWith(Sink.ignore)
     println("===============call returned================")
 
     resultF.onComplete(println)
