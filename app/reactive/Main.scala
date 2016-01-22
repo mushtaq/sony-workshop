@@ -1,9 +1,14 @@
 package reactive
 
 import akka.actor.{ActorRef, Props, ActorSystem}
+import org.joda.time.DateTime
 import reactive.ClientActor.AskCounter
 
 object Main extends App {
+
+  val xs: DateTime = DateTime.now()
+
+  xs.toString
 
   val system = ActorSystem("Sony")
 

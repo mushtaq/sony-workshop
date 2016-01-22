@@ -1,7 +1,26 @@
 package data
 
 import mushtaq.Ord
-import play.api.libs.json.{Json, JsValue, Reads}
+import org.joda.time.DateTime
+import play.api.libs.json._
+
+case class Person(name: String, dob: DateTime)
+
+object Person {
+//  implicit val dateWrites: Writes[DateTime] = new Writes[DateTime] {
+//    def writes(o: DateTime): JsValue = JsString(o.toString)
+//  }
+
+  implicit val dateWrites: Writes[DateTime] = Writes(dt => JsString(dt.toString))
+
+  implicit val format = Json.format[Person]
+}
+
+case class BookSet(books: Seq[Book]) {
+
+  def findByAuthor(name: String) = books.filter(_.author == name)
+  def findByAuthors(names: List[String]) = books.filter(b => names.contains(b.author))
+}
 
 case class Book(
   author: String,
@@ -15,7 +34,7 @@ object Book {
     def lt(a: Book, b: Book) = a.basePrice < b.basePrice
   }
 
-  implicit val reads = Json.format[Book]
+  implicit val format = Json.format[Book]
 }
 
 object Data {
@@ -30,4 +49,7 @@ object Data {
     Book("misky", "ocaml prog", 1000, true),
     Book("hickey", "clojure prog", 500, true)
   )
+
+  val bookSet = BookSet(books)
+
 }
