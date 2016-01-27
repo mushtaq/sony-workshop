@@ -4,6 +4,8 @@ import mushtaq.Ord
 import org.joda.time.DateTime
 import play.api.libs.json._
 
+import scala.concurrent.Future
+
 case class Person(name: String, dob: DateTime)
 
 object Person {
@@ -17,9 +19,8 @@ object Person {
 }
 
 case class BookSet(books: Seq[Book]) {
-
-  def findByAuthor(name: String) = books.filter(_.author == name)
-  def findByAuthors(names: List[String]) = books.filter(b => names.contains(b.author))
+  def findByAuthor(name: String): Future[Seq[Book]] = Future.successful(books.filter(_.author == name))
+  def findByAuthors(names: List[String]): Future[Seq[Book]] = Future.successful(books.filter(b => names.contains(b.author)))
 }
 
 case class Book(

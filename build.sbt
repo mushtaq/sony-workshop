@@ -1,3 +1,22 @@
+
+val demoKey = settingKey[Int]("this is the demo key")
+
+demoKey := 100
+
+val copyTaskKey = taskKey[File]("this will copy dist zip to explore folder")
+
+copyTaskKey := {
+  val distFile1 = dist.value
+  val s = streams.value
+  val destinationFile = file("explore") / "demo.zip"
+  s.log.info(s"started copying to $destinationFile")
+  IO.copyFile(distFile1, destinationFile)
+  s.log.info(s"done copying to $destinationFile")
+  destinationFile
+}
+
+IntegrationTest
+
 name := "sony-workshop"
 
 version := "1.0-SNAPSHOT"
