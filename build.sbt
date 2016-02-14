@@ -15,8 +15,6 @@ copyTaskKey := {
   destinationFile
 }
 
-IntegrationTest
-
 name := "sony-workshop"
 
 version := "1.0-SNAPSHOT"
